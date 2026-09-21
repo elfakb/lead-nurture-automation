@@ -56,7 +56,7 @@ reminder after a set period.
 ![Received Email](screenshots/06-received-email.png)
 
 ### Click Tracker Workflow
-![Click Tracker](screenshots/07-click-tracker-workflow.png)
+![Click Tracker](screenshots/07-click-tracker-workflow..png)
 
 
 ## Setup & Installation
