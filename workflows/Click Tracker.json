@@ -1,0 +1,205 @@
+{
+  "name": "Click Tracker",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "track-click",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5bebddba-13a2-4c25-b518-84baf5514363",
+      "name": "Webhook",
+      "webhookId": "afbea8bd-63ba-491f-9c41-9ad443694550"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8",
+          "mode": "list",
+          "cachedResultName": "Başlıksız form (Yanıtlar)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1117743628,
+          "mode": "list",
+          "cachedResultName": "Form Yanıtları 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8/edit#gid=1117743628"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "clicked": "TRUE",
+            "lead_score": "10",
+            "status": "engaged",
+            "Email": "={{ $json.query.email }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "Zaman damgası",
+              "displayName": "Zaman damgası",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Interest",
+              "displayName": "Interest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "lead_score",
+              "displayName": "lead_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "clicked",
+              "displayName": "clicked",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        224,
+        0
+      ],
+      "id": "16909f7d-01fb-497b-b441-cb8cb560b0f1",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vhp2pf4lTfBVi71e",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "<html>\n  <body>\n    <p>Thanks, redirecting...</p>\n    <script>\n      window.location.href = \"https://yourwebsite.com\";\n    </script>\n  </body>\n</html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "2927cd36-4c92-417b-ae0a-150580479a13",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4c9e2384-0062-413d-846b-a235b9cc2191",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d0d3f71447de12918576d41afdce18779b871346eed3f00562580016725ab4b9"
+  },
+  "nodeGroups": [],
+  "id": "u17tw6x4PdPLUkeC",
+  "tags": []
+}

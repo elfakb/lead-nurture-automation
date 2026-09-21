@@ -1,0 +1,440 @@
+{
+  "name": "Automated Lead Nurturing Engine",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8",
+          "mode": "list",
+          "cachedResultName": "Başlıksız form (Yanıtlar)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1117743628,
+          "mode": "list",
+          "cachedResultName": "Form Yanıtları 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8/edit#gid=1117743628"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3578e69f-bae4-46b7-beb4-17f78ae055e0",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "rnYlCeS3CGAUJYV8",
+          "name": "Google Sheets Trigger account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Interest }}",
+                    "rightValue": "=Pricing",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "31641491-d4c5-4536-8c49-f97f292f1587"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "pricing"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6cb8187a-acd1-4236-8a1d-d00177a1b595",
+                    "leftValue": "={{ $json.Interest }}",
+                    "rightValue": "Product Features",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "features"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4cf7e62d-a76d-41be-ace9-bd7afbb3ae43",
+                    "leftValue": "={{ $json.Interest }}",
+                    "rightValue": "=Demo Request",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "demo"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "c057c6d5-e06d-41e8-bf1a-861d7d82e7ab",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Welcome, {{ $json.Name }} — Here's what you asked about",
+        "emailType": "text",
+        "message": "=     Hi {{ $json.Name }},\n\n     Thanks for signing up! Since you're interested in pricing, \n     here's a quick resource to get you started.\n\n     [Learn More →] http://localhost:5678/webhook/track-click\n\n     Talk soon,\n     The Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        -112
+      ],
+      "id": "ee1a8bfb-0358-4c18-9672-7894802074d9",
+      "name": "Send a message",
+      "webhookId": "da668b31-aa00-42ec-be8a-ffebe9f62d3c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wKVfp29u8vaJj5WY",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Welcome, {{ $json.Name }} — Here's what you asked about",
+        "emailType": "text",
+        "message": "=     Hi {{ $json.Name }},       Thanks for signing up! Since you're interested in a demo,      here's how to book one.       [Book a Demo →] http://localhost:5678/webhook/track-click   Talk soon,      The Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        112
+      ],
+      "id": "bf110f42-cd8d-45b7-b2e5-fdfcda6fb951",
+      "name": "Send a message2",
+      "webhookId": "8f20d12d-2c79-4f7e-b966-db2a91499cde",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wKVfp29u8vaJj5WY",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Welcome, {{ $json.Name }} — Here's what you asked about",
+        "emailType": "text",
+        "message": "=     Hi {{ $json.Name }},       Thanks for signing up! Since you're interested in our product features,      here's a quick resource to get you started.       [Explore Features →] http://localhost:5678/webhook/track-click   Talk soon,      The Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "f4b03005-fb08-46d3-9904-2e40ce9c9cbb",
+      "name": "Send a message1",
+      "webhookId": "7afd7a87-6953-4758-982d-3c1eb4579f90",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wKVfp29u8vaJj5WY",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        -112
+      ],
+      "id": "6e4d8a75-3efd-4d86-9179-96e2a6cc4e16",
+      "name": "Wait",
+      "webhookId": "70f1800b-6d35-4747-8437-9daa2c29f0f0"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "ff38a675-faa5-4696-a9df-f0c33ce3cb98",
+      "name": "Wait1",
+      "webhookId": "4d761215-725d-487a-9f06-23a1f71d4af8"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8",
+          "mode": "list",
+          "cachedResultName": "Başlıksız form (Yanıtlar)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1117743628,
+          "mode": "list",
+          "cachedResultName": "Form Yanıtları 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kaQzU9nUh6GPv8Ud_1Oia78e-UJJoORinFNf0eSlzF8/edit#gid=1117743628"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Email",
+              "lookupValue": "={{ $json.Email }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        896,
+        -112
+      ],
+      "id": "649645e1-1f69-4764-83c4-500460503f7c",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vhp2pf4lTfBVi71e",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "2b8bf7ca-0b60-4eab-a4d7-eeee335178d3",
+              "leftValue": "={{ $json.clicked }}",
+              "rightValue": "TRUE",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        992.5,
+        -112
+      ],
+      "id": "05ae1609-c5cd-4d40-b873-764811ad38de",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.Email }}",
+        "subject": "={{ $json.Name }}, hâlâ ilgileniyor musun?",
+        "emailType": "text",
+        "message": "=Hi {{ $json.Name }},  We noticed you haven't checked out the resource we sent yet. Don't miss out — here it is again:  [Check it out →] http://localhost:5678/webhook/track-click?email={{ $json.Email }}  Talk soon, The Team",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1232,
+        -208
+      ],
+      "id": "fb217e00-a494-4b46-ab60-e4949712a38a",
+      "name": "Send a message3",
+      "webhookId": "71883830-cd7d-4088-9a11-ed1d931c9abb",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "wKVfp29u8vaJj5WY",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "0110d91e-7173-40b2-8886-7990f365fe04",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d0d3f71447de12918576d41afdce18779b871346eed3f00562580016725ab4b9"
+  },
+  "nodeGroups": [],
+  "id": "aSW2CbFrzU6TQULt",
+  "tags": []
+}
